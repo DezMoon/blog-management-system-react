@@ -16,6 +16,9 @@ mongoose.connect(
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    writeConcern: {
+      w: "majority",
+    },
   }
 );
 

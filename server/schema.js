@@ -12,6 +12,10 @@ const typeDefs = gql`
   type Query {
     posts: [Post]
   }
+
+  type Mutation {
+    addPost(title: String!, content: String!): Post
+  }
 `;
 
 module.exports = typeDefs;
