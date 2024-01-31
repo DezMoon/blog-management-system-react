@@ -4,6 +4,7 @@ import { gql } from "graphql-tag";
 import PostListComponent from "./components/PostListComponent";
 import PostDetailComponent from "./components/PostDetailComponent";
 import RegistrationForm from "./components/RegistrationForm";
+import client from "./graphql";
 
 // Define GraphQL queries and mutations
 const GET_POSTS = gql`
@@ -29,12 +30,13 @@ const ADD_POST = gql`
 const App = () => {
   const [selectedPost, setSelectedPost] = useState(null);
 
-  // Use the useQuery hook to fetch posts
-  const { loading, error, data } = useQuery(GET_POSTS);
+  // Use the useQuery hook to fetch posts with the imported client
+  const { loading, error, data } = useQuery(GET_POSTS, { client });
 
-  // Use the useMutation hook to add a new post
+  // Use the useMutation hook to add a new post with the imported client
   const [addPost] = useMutation(ADD_POST, {
-    refetchQueries: [{ query: GET_POSTS }], // Refresh the post list after adding a new post
+    refetchQueries: [{ query: GET_POSTS }],
+    client,
   });
 
   const handleSelectPost = (post) => {

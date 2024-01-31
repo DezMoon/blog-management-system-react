@@ -3,8 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const { app, startServer } = require("./apolloServer");
 
-const app = express();
 const PORT = 3001;
 
 app.use(cors());
@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 // Connect to MongoDB using mongoose
 mongoose.connect(
-  "mongodb+srv://moongachiku:nUjgdnPMTBEX4ZaW@blog.kabxvsi.mongodb.net/",
+  "mongodb+srv://moongachiku:nUjgdnPMTBEX4ZaW@blog.kabxvsi.mongodb.net/?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -109,7 +109,10 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   res.json({ message: "File uploaded successfully." });
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Use Apollo Server middleware
+
+startServer().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 });
